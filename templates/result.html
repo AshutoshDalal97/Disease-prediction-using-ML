@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+</head>
+<body>
+
+<h2>Prediction Results</h2>
+
+<table border="1">
+<tr>
+    <th>Disease</th>
+    <th>Probability (%)</th>
+</tr>
+
+{% for d, p in results %}
+<tr>
+    <td>{{ d }}</td>
+    <td>{{ (p*100)|round(2) }}%</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<br>
+<a href="/">Go Back</a>
+
+</body>
+</html>
