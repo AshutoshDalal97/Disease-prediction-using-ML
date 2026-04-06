@@ -12,11 +12,16 @@ model = pickle.load(open("best_model.pkl", "rb"))
 with open("features.json") as f:
     features = json.load(f)
 
-# ✅ SQLite DB connection
-conn = sqlite3.connect('database.db', check_same_thread=False)
+# ✅ DB connection function
+def get_db():
+    conn = sqlite3.connect('disease_app.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+# ✅ Create table (once)
+conn = get_db()
 cursor = conn.cursor()
 
-# Create table if not exists
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS predictions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,10 +31,19 @@ CREATE TABLE IF NOT EXISTS predictions (
 )
 ''')
 
+conn.commit()
+conn.close()
+
+# =========================
+# HOME
+# =========================
 @app.route('/')
 def home():
     return render_template("index.html", features=features)
 
+# =========================
+# PREDICT
+# =========================
 @app.route('/predict', methods=['POST'])
 def predict():
     selected = request.form.getlist('symptoms')
@@ -53,10 +67,13 @@ def predict():
             for disease, prob in top_results
         ])
 
-        # ✅ SQLite query
+        conn = get_db()
+        cursor = conn.cursor()
+
         query = "INSERT INTO predictions (symptoms, prediction) VALUES (?, ?)"
         cursor.execute(query, (str(selected), formatted_results))
         conn.commit()
+        conn.close()
 
         print("Data inserted successfully")
 
@@ -65,7 +82,24 @@ def predict():
 
     return render_template("result.html", results=results[:5])
 
-# ✅ Required for deployment
+# =========================
+# VIEW DATA
+# =========================
+@app.route('/data')
+def show_data():
+    conn = get_db()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM predictions ORDER BY created_at DESC")
+    rows = cursor.fetchall()
+
+    conn.close()
+
+    return render_template("data.html", rows=rows)
+
+# =========================
+# RUN APP
+# =========================
 port = int(os.environ.get("PORT", 5000))
 
 if __name__ == "__main__":
