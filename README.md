@@ -18,30 +18,27 @@ Takes symptoms as input
 Predicts possible diseases
 Outputs probabilities for each disease
 Helps in early-stage diagnostic assistance
+
 📊 Dataset Creation
+
 🔹 Source
-Data collected from Wikipedia disease pages
-Symptoms extracted from infobox ("Symptoms")
+Data collected from https://medlineplus.gov website
+
 🔹 Steps Involved
+
 Disease Selection
-Started with common human diseases (20–50)
-Expanded using curated lists
+Started with common human diseases 
+
 Web Scraping
+
 Extracted symptoms using requests + BeautifulSoup
+
 Data Cleaning
-Removed references [1], [2]
+
 Converted text to lowercase
 Split symptoms using delimiters (,, and, ;)
 Normalization
-
-Converted symptoms into standard format:
-
-"high fever" → "high_fever"
-Noise Removal
-
-Removed words like:
-
-may, can, often, usually
+Also some manual corrections in csv file
 
 
 Data Augmentation
@@ -58,7 +55,6 @@ Generated multiple samples per disease
 👉 This simulates real-world variability
 
 
-
 # Model Training
 Models Tested:
 Logistic Regression
@@ -69,13 +65,8 @@ Extensive Tree
 Gradient Boosting
 XGB
 
-Best Model: Random Forest
+Best Model: SVM
 
-Why?
-
-Handles binary features well
-Works with small datasets
-Captures non-linear relationships
 
 Model Evaluation
 
