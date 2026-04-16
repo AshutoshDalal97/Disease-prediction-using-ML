@@ -88,6 +88,7 @@ NumPy
 Scikit-learn
 BeautifulSoup
 Requests
+flask
 
 📂 Project Structure
 ├── data/
@@ -100,6 +101,12 @@ Requests
 │   ├── model.py
 │   └── predict.py
 ├── README.md
+
+# Web App link (Render)
+
+https://disease-prediction-using-ml-rm4p.onrender.com/ 
+*Please visit the link
+*Select the symptoms and then click on predict
 
 👨‍💻 Author
 
