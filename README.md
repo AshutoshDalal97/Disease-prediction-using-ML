@@ -65,7 +65,7 @@ Extensive Tree
 Gradient Boosting
 XGB
 
-Best Model: SVM
+Best Model: Random Forest
 
 
 Model Evaluation
